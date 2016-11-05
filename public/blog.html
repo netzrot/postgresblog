@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
+<link type="text/css" rel="stylesheet" href="blog.css"/>
+</head>
+<body>
+
+<h1>blog like nobody's reading</h1>
+
+<form action="/create" method="POST"> 
+	<div>
+		<input id="title" type="text" name="title" /> 
+	</div>
+	<div>
+		<textarea id="bodytext" name="body"></textarea> 
+	</div>
+	<div>
+		<input type="submit" value="post">
+	</div>
+
+</form>
+
+<div id="blogPosts"></div>
+
+<body>
+</html>
