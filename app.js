@@ -18,10 +18,10 @@ var Post = sequelize.define('Post', {
 	date: Sequelize.DATE
 
 })
-*/
+
 
 sequelize.sync();
-
+*/
 
 var express = require('express');
 var app = express();
