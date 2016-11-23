@@ -25,7 +25,7 @@ sequelize.sync();
 
 var express = require('express');
 var app = express();
-//var port = 5000;
+//var port = 3000;
 var path = require("path");
 
 
@@ -40,7 +40,7 @@ app.set('view engine', 'ejs'); // tell express to use a "view" folder
 app.set('views', path.join(__dirname, './views')); // to tell express where the file is
 
 
-
+// for Heroku 
 app.set('port', (process.env.PORT || 5000));
 
 app.listen(app.get('port'), function() {
@@ -82,7 +82,6 @@ app.get('/blog', function(req, res) { // blog is the route
 	// 
 });
 
-/
 
 app.get('/blogview', function(req, res) { // blog is the route
 	res.render('blogview', { blogPosts }); // data that gets rendered 'blogview' = name of the ejs file
