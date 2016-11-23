@@ -25,7 +25,7 @@ sequelize.sync();
 
 var express = require('express');
 var app = express();
-var port = 5000;
+//var port = 5000;
 var path = require("path");
 
 
@@ -39,6 +39,13 @@ app.use(express.static("public")); // tell express to use static folder called "
 app.set('view engine', 'ejs'); // tell express to use a "view" folder
 app.set('views', path.join(__dirname, './views')); // to tell express where the file is
 
+
+
+app.set('port', (process.env.PORT || 5000));
+
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
 
 // route to accept input by author
 
@@ -83,6 +90,7 @@ app.get('/blogview', function(req, res) { // blog is the route
 
 // always required at bottom of the page:
 
-app.listen(port, function() {
+/*app.listen(port, function() {
 	console.log("Express started on port" + port);
 }); 
+*/
