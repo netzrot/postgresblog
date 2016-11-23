@@ -8,7 +8,7 @@
 // add, retrieve, etc.
 // schema in sqlite3 shows what it's doing behind the scenes
 
-var Sequelize = require('sequelize');
+/* var Sequelize = require('sequelize');
 var databaseURL = 'sqlite://dev.sqlite3'; //creates the db-file for me
 var sequelize = new Sequelize(databaseURL); // lines to connect to local sql database;
 
@@ -18,13 +18,14 @@ var Post = sequelize.define('Post', {
 	date: Sequelize.DATE
 
 })
+*/
 
 sequelize.sync();
 
 
 var express = require('express');
 var app = express();
-var port = 3000;
+var port = 5000;
 var path = require("path");
 
 
