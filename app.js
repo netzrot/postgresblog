@@ -1,10 +1,31 @@
+// install sequelize
+// package json: npm init
+// require
+// connect to database
+// initialize sequelize with database url
+// set up initial table
+// then sync
+// add, retrieve, etc.
+// schema in sqlite3 shows what it's doing behind the scenes
+
+var Sequelize = require('sequelize');
+var databaseURL = 'sqlite://dev.sqlite3'; //creates the db-file for me
+var sequelize = new Sequelize(databaseURL); // lines to connect to local sql database;
+
+var Post = sequelize.define('Post', {
+	title: Sequelize.STRING,
+	body: Sequelize.TEXT,
+	date: Sequelize.DATE
+
+})
+
+sequelize.sync();
+
+
 var express = require('express');
 var app = express();
-
 var port = 3000;
-
 var path = require("path");
-
 
 
 var blogPosts = [];
@@ -16,9 +37,6 @@ app.use(
 app.use(express.static("public")); // tell express to use static folder called "public"
 app.set('view engine', 'ejs'); // tell express to use a "view" folder
 app.set('views', path.join(__dirname, './views')); // to tell express where the file is
-
-
-
 
 
 // route to accept input by author
@@ -48,10 +66,18 @@ app.post('/blog', function(req, res) {
 
 app.get('/blog', function(req, res) { // blog is the route
 	res.render('blog', { blogPosts }); // data that gets rendered 'blog' = name of the ejs file
+
+// alternative: AJAX version:
+// $.get("/blog.json", function(data) { in public folder with separate js file
+
+	//DOM STUFF WITH THE data
+	// 
 });
 
+/
+
 app.get('/blogview', function(req, res) { // blog is the route
-	res.render('blogview', { blogPosts }); // data that gets rendered 'blog' = name of the ejs file
+	res.render('blogview', { blogPosts }); // data that gets rendered 'blogview' = name of the ejs file
 });
 
 // always required at bottom of the page:
