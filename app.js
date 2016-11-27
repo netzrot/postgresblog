@@ -14,9 +14,7 @@ var bodyParser = require('body-parser'); // plugin; standard to make sure youre 
 var path = require("path");
 var port = process.env.PORT || 3000;
 
-var databaseURL = 'sqlite://dev.sqlite3'; //creates the db-file for me
-// Heroku with database: var sequelize = new Sequelize(process.env.DATABASE_URL); 
-var sequelize = new Sequelize(databaseURL);  // to connect to local sql database: 
+var sequelize = new Sequelize(process.env.DATABASE_URL); 
 
 
 var Post = sequelize.define('Post', {
