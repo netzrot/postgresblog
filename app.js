@@ -12,6 +12,7 @@ var Sequelize = require('sequelize');
 var express = require('express');
 var bodyParser = require('body-parser'); // plugin; standard to make sure youre able to use body parser and be able to use post requests
 var path = require("path");
+var port = process.env.PORT || 3000;
 
 var databaseURL = 'sqlite://dev.sqlite3'; //creates the db-file for me
 // Heroku with database: var sequelize = new Sequelize(process.env.DATABASE_URL); 
@@ -78,8 +79,8 @@ app.get('/posts', function(req, res) {
 sequelize.sync().then(function() {
 	console.log("Synced");
 
-	app.listen(3000, function() {
-		console.log("Server started on port 3000");
+	app.listen(app.get('port'), function() {
+  	console.log('Node app is running on port', app.get('port'));
 	});
 });
 
