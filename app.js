@@ -8,9 +8,15 @@
 // add, retrieve, etc.
 // schema in sqlite3 shows what it's doing behind the scenes
 
-/* var Sequelize = require('sequelize');
+var Sequelize = require('sequelize');
+var express = require('express');
+var bodyParser = require('body-parser'); // plugin; standard to make sure youre able to use body parser and be able to use post requests
+var path = require("path");
+
 var databaseURL = 'sqlite://dev.sqlite3'; //creates the db-file for me
-var sequelize = new Sequelize(databaseURL); // lines to connect to local sql database;
+// Heroku with database: var sequelize = new Sequelize(process.env.DATABASE_URL); 
+var sequelize = new Sequelize(databaseURL);  // to connect to local sql database: 
+
 
 var Post = sequelize.define('Post', {
 	title: Sequelize.STRING,
@@ -19,37 +25,27 @@ var Post = sequelize.define('Post', {
 
 })
 
-
-sequelize.sync();
-*/
-
-var express = require('express');
 var app = express();
-//var port = 3000;
-var path = require("path");
+app.set('view engine', 'ejs'); // tells express to use a "view" folder
+
+app.use(express.static("public")); // tells express to use static folder called "public"
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 
-var blogPosts = [];
 
-var bodyParser = require('body-parser'); // plugin; standard to make sure youre able to use body parser and be able to use post requests
-app.use(
-	bodyParser.urlencoded({ extended: true })
-);
-app.use(express.static("public")); // tell express to use static folder called "public"
-app.set('view engine', 'ejs'); // tell express to use a "view" folder
-app.set('views', path.join(__dirname, './views')); // to tell express where the file is
+app.get('/posts.json', function(req, res) {
 
+	Post.findAll().then(function(posts) {
+ 		res.json(posts);
+	});
 
-// for Heroku 
-app.set('port', (process.env.PORT || 5000));
-
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
 });
+
 
 // route to accept input by author
 
-app.post('/blog', function(req, res) {
+app.post('/posts', function(req, res) {
 	
 	var newTitle = req.body.title;
 
@@ -60,36 +56,30 @@ app.post('/blog', function(req, res) {
 	var newPost = {
 		title: newTitle,
 		body: newBody,
-		date: newDate
+		date: newDate 
 	}
 
-	blogPosts.push(newPost);
-	console.log(blogPosts); // print out array to have a log
+	Post.create(newPost).then(function() {
+		res.redirect("/posts");
+	});	
 
-	res.redirect('/blog'); // sends back to the empty form; to blank the form each time, go from one route to another
 });
-
 
 // create a list of posts
 
-app.get('/blog', function(req, res) { // blog is the route
-	res.render('blog', { blogPosts }); // data that gets rendered 'blog' = name of the ejs file
-
-// alternative: AJAX version:
-// $.get("/blog.json", function(data) { in public folder with separate js file
-
-	//DOM STUFF WITH THE data
-	// 
-});
-
-
-app.get('/blogview', function(req, res) { // blog is the route
-	res.render('blogview', { blogPosts }); // data that gets rendered 'blogview' = name of the ejs file
+app.get('/posts', function(req, res) { 
+	Post.findAll().then(function(posts) {
+ 		res.render("blog", {posts: posts});
+	});
 });
 
 // always required at bottom of the page:
 
-/*app.listen(port, function() {
-	console.log("Express started on port" + port);
-}); 
-*/
+sequelize.sync().then(function() {
+	console.log("Synced");
+
+	app.listen(3000, function() {
+		console.log("Server started on port 3000");
+	});
+});
+

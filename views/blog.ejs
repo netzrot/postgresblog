@@ -9,7 +9,7 @@
 
 <h1>blog like nobody's reading</h1>
 
-<form action="/blog" method="POST"> 
+<form action="/posts" method="POST"> 
 	<div>
 		<p>title...</p>
 		<input id="title" type="text" name="title" /> 
@@ -24,41 +24,44 @@
 
 </form>
 
-<% if(blogPosts != undefined) {%>
+<% if(posts != undefined) {%>
 
-<% for (var i=0; i < blogPosts.length; i++) 
-{ %>
+<% for (var i in posts) { %>
 
 <div class="blogpost">
-	<h1><%= blogPosts[i].title %></h1>
-	<h5><%= blogPosts[i].body %></h5>
-	<p><%= blogPosts[i].date %></p>
+	<h1><%= posts[i].title %></h1>
+	<p><%= posts[i].body %></p>
+	<p><%= posts[i].date %></p>
 </div>
 
 <% } %> 
 
 <% }%>
 
-
+<!--
 <table>
 <thead>
+	
 	<tr>
 		<th>Title</th>
 		<th>Post</th>
 	</tr>
+	
 </thead>
 <tbody>
 	<% for (var i in posts) { %>
 	<tr>
-	<td><%= post[i].title %></td>
-	<td><%= post[i].body %></td>
+	<td class="title"><%= posts[i].title %></td><br>
+	<td class="text"><%= posts[i].body %></td><br>
+	<td class="date"><%= posts[i].date %></td>
 	</tr>
 	<% } %>
 </tbody>
 
+
 </table>
 
-
+-->
 </body>
 
 </html>
